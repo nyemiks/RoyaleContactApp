@@ -1,0 +1,11 @@
+{
+	"compilerOptions": {
+		"targets": [
+			"JSRoyale"
+		],
+		"source-path": [
+			"client/src","client2/src","client3/src"
+		]
+	},
+	"mainClass": "ContactApp"
+}

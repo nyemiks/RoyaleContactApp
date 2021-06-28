@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8"?>
+<j:View id="view" xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:j="library://ns.apache.org/royale/jewel"
+		  xmlns:js="library://ns.apache.org/royale/basic"
+      xmlns:mx="library://ns.apache.org/royale/mx"  		  
+      xmlns:views="*">
+
+      <fx:Script>
+        <![CDATA[
+         import com.test.contactapp.ContactDTO;
+         import com.test.contactapp.Record;
+         import org.apache.royale.collections.ArrayList;
+         import mx.collections.ArrayCollection;
+         //import org.apache.royale.net.events.ResultEvent;
+       //  import org.apache.royale.net.events.FaultEvent;
+             import mx.rpc.AsyncToken;
+            import mx.rpc.Responder;
+            import mx.rpc.events.FaultEvent;
+            import mx.rpc.events.ResultEvent;
+         import com.test.contactapp.ContactMapper;
+
+         [Bindable]
+         var contacts:ArrayList = new ArrayList();
+
+          [Bindable]
+          var newContact:ContactDTO; 
+
+          var newRecord:Record;
+
+           var contactMapper:ContactMapper;
+
+          
+         private function initCompleteHandler(event:Event):void 
+         {
+
+            trace("contact list is ready!");
+
+           trace(" about to call contactService.getContacts2 ... ");
+            service.send("getContacts2", []);
+
+            trace(" after call !!! ");
+
+            dg1.dataProvider = contacts;
+        }
+
+         private function initCompleteHandler2(event:Event):void 
+         {
+
+            trace("new contact view is ready!");
+
+            newContact = new ContactDTO();        
+        }
+
+
+         /** for mx royale */
+         private function initCompleteHandler3(event:Event):void 
+         {
+             trace(" about to call contactService.getContacts2 the mx royale way ");
+          
+           
+           // service.send("getContacts2", []);
+
+            var r:Responder = new Responder(onGetList, onFault);
+            var t:AsyncToken = service.getContacts2();
+             t.addResponder(r);
+                trace("the token: ", t);
+
+            trace(" after call !!! ");
+
+             trace("contact list is ready!");
+
+
+            dg1.dataProvider = contacts;
+        }
+
+        
+       private function onGetList(event:ResultEvent):void
+			{
+
+             trace("--  onGetList --");
+
+             trace("[onGetList]", event);
+
+               // result3_txt.text = event.result as String;
+
+      }
+
+
+ private function onNewContact(event:ResultEvent):void
+			{
+
+             trace("--  onNewContact --");
+
+             trace("[onNewContact]", event);
+
+               // result3_txt.text = event.result as String;
+
+      }
+
+    
+
+
+        private function save(event:Event):void
+        {
+
+           trace(" -- save -- ");
+
+         //  newContact = event.target;
+
+           trace(" contact name: " + newContact.name + "  contact email: " + newContact.email);
+
+          contactMapper = new ContactMapper();
+          newRecord = contactMapper.DtoToRecord2(newContact);
+
+          // send record here
+
+           trace(" about to call contactService.getContacts2 ... ");
+          //  service.send("newContact", [newRecord]);    // old approach
+
+
+           var r:Responder = new Responder(onNewContact, onFault);
+            var t:AsyncToken = service.newContact(newRecord);
+             t.addResponder(r);
+                trace("the token: ", t);
+
+            trace(" after call !!! ");
+
+
+           trace(" change view state ... ");
+           this.currentState = 'list';
+        }
+
+        /** alternative way of loading a grid. used in conjunction with initComplete attribute
+         * of datagrid.
+         */
+        private function loadDataProvider(datagrid:DataGrid):void
+		{
+            trace(" -- load data provider -- ");
+
+			datagrid.dataProvider = contacts; 
+
+            trace(" loaded ! ");
+		}
+
+        private function onResult(param0:ResultEvent):void
+        {
+             trace(" -- onResult oh ! -- ");
+
+              //if (param0.data is ArrayCollection)
+             if (param0.result is ArrayCollection)
+		      	{	
+                	 trace(" -- ArrayCollection has been returned -- ");
+
+               
+               // var records: ArrayCollection = (param0.data as ArrayCollection);
+               var records: ArrayCollection = (param0.result as ArrayCollection);
+
+                trace(" -- contactList size: " + records.length);
+
+                              
+                contactMapper = new ContactMapper();
+                contacts = contactMapper.recordToDTO(records);
+
+                trace(" mapping completed !!! ");
+                trace(" render grid ...");
+            }
+            else
+            {
+                 trace(" -- no ArrayCollection returned -- ");
+            }
+            
+        }
+
+        private function onFault(param0:FaultEvent):void
+        {
+                trace(" -- onFailure oh ! -- ");
+
+               // var errorMessage : String = param0.message as String;
+              
+               // trace(" Error :: " + errorMessage);
+
+                trace("[onFault]", param0);
+
+              //  trace("[onFault]", evt);
+        }
+       
+        ]]>
+    </fx:Script>
+
+    <fx:Declarations>
+        <mx:RemoteObject id="service" result="onResult(event)" fault="onFault(event)"
+                         endpoint="http://localhost:8080/messagebroker/websocket-amf"
+                         destination="contactService">
+            <mx:method name="getContacts2">
+            </mx:method> 
+            <mx:method name="newContact">
+             <!-- <mx:arguments>
+                    <symbol>{newRecord}</symbol>
+                </mx:arguments> -->
+            </mx:method> 
+         </mx:RemoteObject>
+ </fx:Declarations>
+
+    <fx:Binding
+		source="nameText.text"
+		destination="newContact.name"/>
+		
+		<fx:Binding
+		source="emailText.text"
+		destination="newContact.email"/>
+		
+        <j:states>               
+               <js:State name="list" />
+               <js:State name="new" />                      
+        </j:states>
+
+     <j:beads>       
+         <js:SimpleStatesImpl/> 
+           <js:ContainerDataBinding/>  
+          <!-- <js:ApplicationDataBinding />  -->
+        <!-- <js:RemoteObject id="service"
+        endPoint = "http://localhost:8080/messagebroker/websocket-amf"
+        destination = "contactService"
+        result="onResult(event)" fault="onFault(event)"/>           -->
+    </j:beads>
+
+ 
+
+  <j:VGroup gap="5" itemsVerticalAlign="itemsBottom"
+      initComplete="initCompleteHandler3(event)" width="100%" includeIn="list">
+      
+    	         <j:HGroup width="50%" height="30%" gap="3" itemsHorizontalAlign="itemsCenter">
+                      <j:Label text="Contact App"/>
+                      <j:Button text="New Contact" emphasis="primary" click="currentState = 'new'"/>
+                 </j:HGroup>
+              
+         <j:Card width="50%" height="70%"> 
+	         <j:DataGrid localId="dg1" dataProvider="{contacts}">
+            <j:columns>               
+                 <j:DataGridColumn label="Name" dataField="name" columnWidth="200"/>
+                 <j:DataGridColumn label="Email" dataField="email" columnWidth="200"/>                            
+            </j:columns>
+        </j:DataGrid>
+        </j:Card>         
+</j:VGroup>
+
+<j:VGroup gap="5" itemsVerticalAlign="itemsBottom"
+      initComplete="initCompleteHandler2(event)" width="100%" includeIn="new">
+
+      <j:Form width="100%" height="100%"> 
+        <j:FormHeading label="New Contact">
+           <j:Button text="back" emphasis="primary" click="currentState = 'list'"/>
+        </j:FormHeading>
+        <j:FormItem>
+          <j:TextInput localId="nameText">
+						<j:beads>
+							<j:TextPrompt prompt="Enter name"/>
+						</j:beads>
+			</j:TextInput>
+            <j:TextInput localId="emailText">
+						<j:beads>
+							<j:TextPrompt prompt="enter email"/>
+						</j:beads>
+			</j:TextInput>
+        </j:FormItem>
+        <j:FormItem>
+             <j:Button text="Save" emphasis="primary" click="save(event)"/>
+         </j:FormItem>
+      </j:Form>
+
+</j:VGroup>
+
+</j:View>

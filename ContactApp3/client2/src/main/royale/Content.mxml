@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<j:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:j="library://ns.apache.org/royale/jewel"
+		  xmlns:js="library://ns.apache.org/royale/basic"
+		   gap="5" itemsVerticalAlign="itemsBottom"
+      initComplete="initCompleteHandler(event)" width="100%">
+		  
+ <fx:Script>
+        <![CDATA[
+         import com.test.contactapp.ContactDTO;
+         import org.apache.royale.collections.ArrayList;
+
+         [Bindable]
+         var contacts:ArrayList = new ArrayList();
+
+          
+         private function initCompleteHandler(event:Event):void 
+         {
+
+            trace("VGroup is ready!");
+
+
+            var contact:ContactDTO = new ContactDTO();
+
+            contact.name = "Nyemike";
+            contact.email = "nyemike83@yahoo.com";
+
+            contacts.addItem(contact);
+
+
+             var contact1:ContactDTO = new ContactDTO();
+
+            contact1.name = "Francis";
+            contact1.email = "autisi@yahoo.com";
+
+            contacts.addItem(contact1);
+
+             var contact2:ContactDTO = new ContactDTO();
+
+            contact2.name = "Roman";
+            contact2.email = "romanisitua@yahoo.com";
+
+            contacts.addItem(contact2);
+
+
+             var contact3:ContactDTO = new ContactDTO();
+
+            contact3.name = "Tok";
+            contact3.email = "twang@yahoo.com";
+
+            contacts.addItem(contact3);
+
+
+             var contact4:ContactDTO = new ContactDTO();
+
+            contact4.name = "Tobi";
+            contact4.email = "tobs@yahoo.com";
+
+            contacts.addItem(contact4);
+
+             trace(" contact list initialised ! ");
+
+             trace(" list size: " + contacts.length);
+
+            dg1.dataProvider = contacts;
+        }
+
+        /** alternative way of loading a grid. used in conjunction with initComplete attribute
+         * of datagrid.
+         */
+        private function loadDataProvider(datagrid:DataGrid):void
+		{
+            trace(" -- load data provider -- ");
+
+			datagrid.dataProvider = contacts; 
+
+            trace(" loaded ! ");
+		}
+       
+        ]]>
+    </fx:Script>
+    
+     <j:beads>
+        <js:ApplicationDataBinding />       
+    </j:beads>
+    	         
+               <j:Card width="50%" height="30%">
+		              <j:Label text="Contact App"/>
+              	</j:Card>
+
+
+         <j:Card width="50%" height="70%"> 
+	         <j:DataGrid localId="dg1" dataProvider="{contacts}">
+            <j:columns>
+                <j:DataGridColumn label="Name" dataField="name" columnWidth="200"/>
+                <j:DataGridColumn label="Email" dataField="email" columnWidth="200"/>                
+            </j:columns>
+        </j:DataGrid>	
+
+        </j:Card>          
+	         
+</j:VGroup>

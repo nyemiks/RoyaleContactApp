@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<j:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:j="library://ns.apache.org/royale/jewel"
+		  xmlns:js="library://ns.apache.org/royale/basic"         
+		   gap="5" itemsVerticalAlign="itemsBottom"
+      initComplete="initCompleteHandler(event)" width="100%">
+       <!-- xmlns:mx="library://ns.apache.org/royale/mx" -->
+		  
+ <fx:Script>
+        <![CDATA[
+         import com.test.contactapp.ContactDTO;
+         import org.apache.royale.collections.ArrayList;
+         import org.apache.royale.net.events.ResultEvent;
+         import org.apache.royale.net.events.FaultEvent;
+
+         [Bindable]
+         var contacts:ArrayList = new ArrayList();
+
+        /*  var nameField:String = "name";
+         var emailField:String = "email"; */
+
+          
+         private function initCompleteHandler(event:Event):void 
+         {
+
+            trace("VGroup is ready!");
+
+           trace(" about to call contactService.getContacts ... ");
+            service.send("getContacts", []);
+
+            trace(" after call !!! ");
+
+            dg1.dataProvider = contacts;
+        }
+
+        /** alternative way of loading a grid. used in conjunction with initComplete attribute
+         * of datagrid.
+         */
+        private function loadDataProvider(datagrid:DataGrid):void
+		{
+            trace(" -- load data provider -- ");
+
+			datagrid.dataProvider = contacts; 
+
+            trace(" loaded ! ");
+		}
+
+        private function onResult(param0:ResultEvent):void
+        {
+             trace(" -- onResult oh ! -- ");
+
+            
+             if (param0.data is ArrayList)
+			{	
+                	 trace(" -- arrayList has been returned -- ");
+
+               //  var contactList: ArrayList = (param0.data as ArrayList);
+              
+                 contacts = (param0.data as ArrayList);
+
+                trace(" -- contactList size: " + contacts.length);
+            }
+            else
+            {
+                 trace(" -- an arrayList was not returned -- ");
+            }
+            
+        }
+
+        private function onFault(param0:FaultEvent):void
+        {
+                trace(" -- onFailure oh ! -- ");
+
+                var errorMessage : String = param0.message as String;
+
+                trace(" Error :: " + errorMessage);
+
+                trace("[onFault]", param0);
+        }
+       
+        ]]>
+    </fx:Script>
+    
+    <!--  <fx:Declarations>
+          <mx:RemoteObject id="service" result="onResult(event)" fault="onFault(event)"
+                         endpoint="http://localhost:8080/messagebroker/websocket-amf"
+                         destination="contactService"/>
+      </fx:Declarations> -->
+     
+     
+
+     <j:beads>        
+        <js:ApplicationDataBinding /> 
+        <js:RemoteObject id="service"
+        endPoint = "http://localhost:8080/messagebroker/websocket-amf"
+        destination = "contactService"
+        result="onResult(event)" fault="onFault(event)"/>     
+        <!-- <mx:RemoteObject id="service" result="onResult(event)" fault="onFault(event)"
+                         endpoint="http://localhost:8080/messagebroker/websocket-amf"
+                         destination="contactService"/>
+                         -->
+    </j:beads>
+
+    
+    	         
+               <j:Card width="50%" height="30%">
+		              <j:Label text="Contact App"/>
+              	</j:Card>
+
+
+         <j:Card width="50%" height="70%"> 
+	         <j:DataGrid localId="dg1" dataProvider="{contacts}">
+            <j:columns>               
+                 <j:DataGridColumn label="Name" dataField="name" columnWidth="200"/>
+                 <j:DataGridColumn label="Email" dataField="email" columnWidth="200"/>                             
+            </j:columns>
+        </j:DataGrid>	
+
+        </j:Card>          
+	         
+</j:VGroup>

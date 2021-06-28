@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"java.configuration.updateBuildConfiguration": "automatic",
+		"as3mxml.sdk.framework": "c:\\ROYALE\\apache-royale-0.9.7-bin-js-swf\\royale-asjs"
+	}
+}

@@ -1,0 +1,28 @@
+<j:VGroup id= xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:j="library://ns.apache.org/royale/jewel"
+		  xmlns:js="library://ns.apache.org/royale/basic"
+		   gap="5" itemsVerticalAlign="itemsBottom"
+      initComplete="initCompleteHandler(event)" width="100%" includeIn="new">
+
+<fx:Script>
+        <![CDATA[
+
+          
+           private function initCompleteHandler(event:Event):void 
+         {
+
+            trace("new contact view is ready!");
+
+          // trace(" about to call contactService.getContacts2 ... ");
+          //  service.send("getContacts2", []);
+
+           // trace(" after call !!! ");
+
+           // dg1.dataProvider = contacts;
+        }
+
+
+             ]]>
+ </fx:Script>
+
+</j:VGroup>
