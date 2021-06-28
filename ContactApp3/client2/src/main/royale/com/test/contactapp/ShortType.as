@@ -4,7 +4,7 @@ package com.test.contactapp
      import org.apache.royale.collections.ArrayList;
    // import mx.collections.ArrayCollection;
 
-     [RemoteClass(alias="com.spacio.mdx.generic.dto.types.ShortType")]
+     [RemoteClass(alias="com.test.server.dto.ShortType")]
      [Bindable]
      public class ShortType implements Attribute
     {

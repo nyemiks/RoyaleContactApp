@@ -11,7 +11,7 @@
 	<groupId>com.test</groupId>
 	<artifactId>server</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>server</name>
 	<description>Demo project for Spring Boot</description>
 	
@@ -21,7 +21,7 @@
     <java.version>1.8</java.version>
     <mdx.version>2.1.5.7</mdx.version>
   <project.build.outputTimestamp>2020-05-07T16:32:23Z</project.build.outputTimestamp>
-  <!-- <start-class>com.example.demo.HelloWorldApplication</start-class> -->
+  <start-class>com.test.server.ServerApplication</start-class>
   </properties>
 
   <build>
@@ -36,28 +36,40 @@
           <target>${java.version}</target>
         </configuration>
       </plugin>
-
+        <!-- got this from sprint boot parent starter. comment out when doing war packaging -->
+      <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifest>
+              <mainClass>${start-class}</mainClass>
+              <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>     
       <!-- Make Spring-Boot build an executable war -->
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
-        <version>1.3.3.RELEASE</version>
+        <version>1.3.3.RELEASE</version>        
         <executions>
           <execution>
             <goals>
               <goal>repackage</goal>
             </goals>
           </execution>
-        </executions>
+        </executions>  
         <configuration>
-          <classifier>exec</classifier>
+          <!-- <classifier>exec</classifier> uncomment when doing war deployment. then comment out main class and layout. -->        
         </configuration>
       </plugin>
+
       <!--
           We are building a servlet 3.0 application we don't
           need a web.xml, so we have to disable a check on the
           plugin.
-      -->  
+      --> 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
@@ -92,14 +104,14 @@
       <artifactId>blazeds-spring-boot-starter</artifactId>
       <version>4.7.3</version>
     </dependency>
-
+<!-- for war deployment
    <dependency>
       <groupId>com.test</groupId>
       <artifactId>ContactApp2</artifactId>
       <version>1.0-SNAPSHOT</version>
       <type>war</type>
     </dependency> 
-	
+	 -->
 	<dependency>
 	  <groupId>junit</groupId>
 	  <artifactId>junit</artifactId>

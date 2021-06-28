@@ -16,8 +16,8 @@
   In this client royale ArrayList is used as arrayList. blazeds serializes List of Record
   but fails to serialize List of String and List of Short. Note: when executing "mvn clean install" maven
   will build project and copy it to the spring boot blazeds project.
-  use the option-with-swf maven profile to compile this only.
-  To run the project switch to server then execute ./mvn spring-boot:run
+  use the option-with-swf maven profile (i.e. mvn -P option-with-swf clean install) to compile this only.
+  To run the project switch to server folder from then execute ./mvn spring-boot:run
   access the application url here
   http://localhost:8080/js-debug/index.html
   use the option-with-swf maven profile to compile this only.</description>

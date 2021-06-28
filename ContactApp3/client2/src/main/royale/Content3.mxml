@@ -30,7 +30,7 @@
            var contactMapper:ContactMapper;
 
           
-         private function initCompleteHandler(event:Event):void 
+       /*   private function initCompleteHandler(event:Event):void 
          {
 
             trace("contact list is ready!");
@@ -41,7 +41,7 @@
             trace(" after call !!! ");
 
             dg1.dataProvider = contacts;
-        }
+        } */
 
          private function initCompleteHandler2(event:Event):void 
          {
@@ -67,10 +67,6 @@
 
             trace(" after call !!! ");
 
-             trace("contact list is ready!");
-
-
-            dg1.dataProvider = contacts;
         }
 
         
@@ -83,6 +79,32 @@
 
                // result3_txt.text = event.result as String;
 
+               if (event.result is ArrayCollection)
+		         	{	
+                	 trace(" -- ArrayCollection has been returned -- ");
+
+              }
+              else if (event.result is ArrayList)
+              {                 
+                  trace(" -- ArrayList has been returned -- ");
+                      
+                   var records: ArrayList = (event.result as ArrayList);
+
+                trace(" -- contactList size: " + records.length);
+                              
+                 contactMapper = new ContactMapper();
+                 contacts = contactMapper.recordToDTO(records);
+
+                 trace(" mapping completed !!! ");
+
+                 trace(" render grid ...");
+
+                  dg1.dataProvider = contacts;
+
+                trace(" contact list is ready!");
+            }
+              
+               
       }
 
 

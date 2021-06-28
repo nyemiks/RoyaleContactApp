@@ -22,10 +22,15 @@ package com.test.contactapp
 
          var contacts: ArrayList = new ArrayList();
 
+            trace(" -- records size: " + records.length);
+
+            trace(" -- records: " + records.toArray());
        
-         for each(var record:Record in records)
+         for each (var record:Record in records)
          {
              //trace(value);
+
+             trace(" process record ... ");
                
                var contact:ContactDTO = new ContactDTO();
 

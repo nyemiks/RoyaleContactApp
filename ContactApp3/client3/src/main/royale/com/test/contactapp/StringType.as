@@ -5,7 +5,7 @@ package com.test.contactapp
     //import mx.collections.ArrayCollection;
 
 
-     [RemoteClass(alias="com.spacio.mdx.generic.dto.types.StringType")]
+     [RemoteClass(alias="com.test.server.dto.StringType")]
      [Bindable]
     public class StringType implements Attribute
     {
