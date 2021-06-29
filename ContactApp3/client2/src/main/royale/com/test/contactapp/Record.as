@@ -1,6 +1,6 @@
 package com.test.contactapp
 {
-    [RemoteClass(alias="com.spacio.mdx.generic.dto.Record")]
+    [RemoteClass(alias="com.test.server.dto.Record")]
     [Bindable]
     public class Record
     {
