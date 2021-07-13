@@ -19,52 +19,49 @@ limitations under the License.
 -->
 <j:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
                    xmlns:js="library://ns.apache.org/royale/basic" 
-                   xmlns:j="library://ns.apache.org/royale/jewel"
-                   xmlns:mx="library://ns.apache.org/royale/mx"                          
+                   xmlns:j="library://ns.apache.org/royale/jewel"                    
                    xmlns:views="*" initialize="initApp(event)">
                         
                        
+	<fx:Style source="../../main/resources/jewel-example-styles.css"/>
                    <!-- <fx:Style source="app-styles.css"/> -->
 
-                   <fx:Script>
-                       <![CDATA[
-                       import org.apache.royale.reflection.registerClassAlias;
-                       import org.apache.royale.collections.ArrayList;
-                     //  import org.apache.royale.net.remoting.amf.AMFBinaryData;
-                           
-                       
-                       private function initApp(event:Event): void
-                       {
-                           trace("  -- initApp -- ");
+    <fx:Script>
+        <![CDATA[
+        import org.apache.royale.reflection.registerClassAlias;
+        import org.apache.royale.collections.ArrayList;
+        //  import org.apache.royale.net.remoting.amf.AMFBinaryData;
+            
+        
+        private function initApp(event:Event): void
+        {
+            trace("  -- initApp -- ");
 
-                           trace(" -- registerClassAlias for royale array list -- ");
+            trace(" -- registerClassAlias for royale array list -- ");
 
-                        //  registerClassAlias("flex.messaging.io.ArrayList", ArrayList);  // for jewel remote 
+            //  registerClassAlias("flex.messaging.io.ArrayList", ArrayList);  // for jewel remote 
 
-                         registerClassAlias("flex.messaging.io.ArrayCollection", ArrayList);  // for mx remote 
+            registerClassAlias("flex.messaging.io.ArrayCollection", ArrayList);  // for mx remote 
 
-                         //   AMFBinaryData.DEBUG = true;
-                          // registerClassAlias('org.apache.royale.collections.ArrayList', ArrayList);  // this has never worked
-                         
-                          
-                          // trace(" class alias registered ! ");
+            //   AMFBinaryData.DEBUG = true;
+            // registerClassAlias('org.apache.royale.collections.ArrayList', ArrayList);  // this has never worked
+            
+            
+            // trace(" class alias registered ! ");
 
-                           trace(" -- end of init app -- ");
-                       }
+            trace(" -- end of init app -- ");
+        }
 
-                       ]]>
-                   </fx:Script>
+        ]]>
+    </fx:Script>
 
-    <!--        
-    <js:valuesImpl>
+    <j:valuesImpl>
         <js:SimpleCSSValuesImpl />
-    </js:valuesImpl>  -->
+    </j:valuesImpl>
 
-     <j:beads>  
-        <js:ClassAliasBead />             
+	<j:beads>
+		<js:ClassAliasBead/>
     </j:beads>
-
-     
 
     <j:initialView>
        <views:Content3/>        

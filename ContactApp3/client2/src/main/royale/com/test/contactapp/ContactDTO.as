@@ -1,12 +1,15 @@
 package com.test.contactapp
 {
 
-     import org.apache.royale.collections.ArrayList;
+   import org.apache.royale.collections.ArrayList;
 
    
    [Bindable]
-    public class ContactDTO
+   //[RemoteClass(alias="com.test.server.dto.ContactDTO")]
+   public class ContactDTO
     {
+       public function ContactDTO(){}
+
         private var fullName:String;
 
         private var emailAddress:String;
@@ -18,7 +21,7 @@ package com.test.contactapp
 
      public function set email(email : String) : void
      {
-        this.emailAddress = email;
+        emailAddress = email;
      }
 
      public function get email():String
@@ -29,7 +32,7 @@ package com.test.contactapp
 
       public function set name(name:String) : void
      {
-        this.fullName = name;                
+        fullName = name;                
      }
 
      public function get name():String
@@ -39,23 +42,23 @@ package com.test.contactapp
 
       public function set accountCategory(accountCategory:ArrayList) : void
      {
-        this._accountCategory = accountCategory;                
+        _accountCategory = accountCategory;                
      }
 
      public function get accountCategory():ArrayList
      {
-        return this._accountCategory;
+        return _accountCategory;
      }
 
 
       public function set title(title:ArrayList) : void
      {
-        this._title = title;                
+        _title = title;                
      }
 
      public function get title():ArrayList
      {
-        return this._title;
+        return _title;
      }
 
     }

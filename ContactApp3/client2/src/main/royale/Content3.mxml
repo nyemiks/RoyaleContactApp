@@ -1,33 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<j:View id="view" xmlns:fx="http://ns.adobe.com/mxml/2009"
-		 xmlns:j="library://ns.apache.org/royale/jewel"
-		  xmlns:js="library://ns.apache.org/royale/basic"
-      xmlns:mx="library://ns.apache.org/royale/mx"  		  
-      xmlns:views="*">
+<j:ResponsiveView 
+    xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:j="library://ns.apache.org/royale/jewel"
+		xmlns:js="library://ns.apache.org/royale/basic"
+    xmlns:mx="library://ns.apache.org/royale/mx"  		  
+    xmlns:views="*">
 
-      <fx:Script>
+    <fx:Script>
         <![CDATA[
-         import com.test.contactapp.ContactDTO;
-         import com.test.contactapp.Record;
-         import org.apache.royale.collections.ArrayList;
-         import mx.collections.ArrayCollection;
-         //import org.apache.royale.net.events.ResultEvent;
-       //  import org.apache.royale.net.events.FaultEvent;
-             import mx.rpc.AsyncToken;
-            import mx.rpc.Responder;
-            import mx.rpc.events.FaultEvent;
-            import mx.rpc.events.ResultEvent;
-         import com.test.contactapp.ContactMapper;
+        import com.test.contactapp.ContactDTO;
+        import com.test.contactapp.Record;
+        import org.apache.royale.collections.ArrayList;
+        import mx.collections.ArrayCollection;
+        //import org.apache.royale.net.events.ResultEvent;
+        //import org.apache.royale.net.events.FaultEvent;
+        import mx.rpc.AsyncToken;
+        import mx.rpc.Responder;
+        import mx.rpc.events.FaultEvent;
+        import mx.rpc.events.ResultEvent;
+        import com.test.contactapp.ContactMapper;
 
-         [Bindable]
-         var contacts:ArrayList = new ArrayList();
+        [Bindable]
+        [ArrayElementType("com.test.contactapp.Record")]
+        private var contactsDirect:ArrayList = new ArrayList();
+        
+        [Bindable]        
+        private var contacts:ArrayList = new ArrayList();
 
-          [Bindable]
-          var newContact:ContactDTO; 
-
-          var newRecord:Record;
-
-           var contactMapper:ContactMapper;
+        [Bindable]
+        private var newContact:ContactDTO;
+        private var newRecord:Record;
+        private var contactMapper:ContactMapper;
 
           
        /*   private function initCompleteHandler(event:Event):void 
@@ -55,18 +58,16 @@
          /** for mx royale */
          private function initCompleteHandler3(event:Event):void 
          {
-             trace(" about to call contactService.getContacts2 the mx royale way ");
+            trace(" about to call contactService.getContacts2 the mx royale way ");
           
-           
            // service.send("getContacts2", []);
 
             var r:Responder = new Responder(onGetList, onFault);
             var t:AsyncToken = service.getContacts2();
-             t.addResponder(r);
-                trace("the token: ", t);
+            t.addResponder(r);
 
+            trace("the token: ", t);
             trace(" after call !!! ");
-
         }
 
         
@@ -108,7 +109,7 @@
       }
 
 
- private function onNewContact(event:ResultEvent):void
+      private function onNewContact(event:ResultEvent):void
 			{
 
              trace("--  onNewContact --");
@@ -118,9 +119,6 @@
                // result3_txt.text = event.result as String;
 
       }
-
-    
-
 
         private function save(event:Event):void
         {
@@ -140,10 +138,10 @@
           //  service.send("newContact", [newRecord]);    // old approach
 
 
-           var r:Responder = new Responder(onNewContact, onFault);
-            var t:AsyncToken = service.newContact(newRecord);
-             t.addResponder(r);
-                trace("the token: ", t);
+          var r:Responder = new Responder(onNewContact, onFault);
+          var t:AsyncToken = service.newContact(newRecord);
+          t.addResponder(r);
+          trace("the token: ", t);
 
             trace(" after call !!! ");
 
@@ -215,7 +213,7 @@
 
     <fx:Declarations>
         <mx:RemoteObject id="service" result="onResult(event)" fault="onFault(event)"
-                         endpoint="http://localhost:8080/messagebroker/websocket-amf"
+                         endpoint="http://132.145.63.111:8080/messagebroker/websocket-amf"
                          destination="contactService">
             <mx:method name="getContacts2">
             </mx:method> 
@@ -225,7 +223,7 @@
                 </mx:arguments> -->
             </mx:method> 
          </mx:RemoteObject>
- </fx:Declarations>
+    </fx:Declarations>
 
     <fx:Binding
 		source="nameText.text"
@@ -235,65 +233,66 @@
 		source="emailText.text"
 		destination="newContact.email"/>
 		
-        <j:states>               
-               <js:State name="list" />
-               <js:State name="new" />                      
-        </j:states>
+    <j:states>               
+        <js:State name="list" />
+        <js:State name="new" />                      
+    </j:states>
 
-     <j:beads>       
-         <js:SimpleStatesImpl/> 
-           <js:ContainerDataBinding/>  
-          <!-- <js:ApplicationDataBinding />  -->
+    <j:beads>       
+        <js:SimpleStatesImpl/> 
+        <js:ContainerDataBinding/>  
+        <!-- <js:ApplicationDataBinding />  -->
         <!-- <js:RemoteObject id="service"
         endPoint = "http://localhost:8080/messagebroker/websocket-amf"
         destination = "contactService"
         result="onResult(event)" fault="onFault(event)"/>           -->
-    </j:beads>
+    </j:beads> 
 
- 
-
-  <j:VGroup gap="5" itemsVerticalAlign="itemsBottom"
-      initComplete="initCompleteHandler3(event)" width="100%" includeIn="list">
-      
-    	         <j:HGroup width="50%" height="30%" gap="3" itemsHorizontalAlign="itemsCenter">
-                      <j:Label text="Contact App"/>
-                      <j:Button text="New Contact" emphasis="primary" click="currentState = 'new'"/>
-                 </j:HGroup>
-              
-         <j:Card width="50%" height="70%"> 
-	         <j:DataGrid localId="dg1" dataProvider="{contacts}">
-            <j:columns>               
-                 <j:DataGridColumn label="Name" dataField="name" columnWidth="200"/>
-                 <j:DataGridColumn label="Email" dataField="email" columnWidth="200"/>                            
-            </j:columns>
-        </j:DataGrid>
+    <j:VGroup gap="5" itemsVerticalAlign="itemsBottom"
+        initComplete="initCompleteHandler3(event)" width="100%" includeIn="list">
+        
+        <j:HGroup percentWidth="50" height="50" gap="3" itemsHorizontalAlign="itemsCenter" itemsVerticalAlign="itemsCenter">
+            <j:Label text="Contact App"/>
+            <j:Button text="New Contact" emphasis="primary" click="currentState = 'new'"/>
+        </j:HGroup>
+                
+        <j:Card percentWidth="50" percentHeight="100"> 
+            <j:DataGrid localId="dg1" dataProvider="{contacts}">
+                <j:columns>               
+                    <j:DataGridColumn label="Name" dataField="name" columnWidth="200"/>
+                    <j:DataGridColumn label="Email" dataField="email" columnWidth="200"/>                            
+                </j:columns>
+            </j:DataGrid>
         </j:Card>         
-</j:VGroup>
+    </j:VGroup>
 
-<j:VGroup gap="5" itemsVerticalAlign="itemsBottom"
-      initComplete="initCompleteHandler2(event)" width="100%" includeIn="new">
+    <j:VGroup gap="5" itemsVerticalAlign="itemsBottom"
+        initComplete="initCompleteHandler2(event)" width="100%" includeIn="new">
 
-      <j:Form width="100%" height="100%"> 
-        <j:FormHeading label="New Contact">
-           <j:Button text="back" emphasis="primary" click="currentState = 'list'"/>
-        </j:FormHeading>
-        <j:FormItem>
-          <j:TextInput localId="nameText">
-						<j:beads>
-							<j:TextPrompt prompt="Enter name"/>
-						</j:beads>
-			</j:TextInput>
-            <j:TextInput localId="emailText">
-						<j:beads>
-							<j:TextPrompt prompt="enter email"/>
-						</j:beads>
-			</j:TextInput>
-        </j:FormItem>
-        <j:FormItem>
-             <j:Button text="Save" emphasis="primary" click="save(event)"/>
-         </j:FormItem>
-      </j:Form>
+        <j:Form width="100%" height="100%"> 
+            <j:FormHeading label="New Contact">
+                <j:Button text="back" emphasis="primary" click="currentState = 'list';"/>
+            </j:FormHeading>
+          
+            <j:FormItem>
+                <j:TextInput localId="nameText">
+                    <j:beads>
+                        <j:TextPrompt prompt="Enter name"/>
+                    </j:beads>
+                </j:TextInput>
+                
+                <j:TextInput localId="emailText">
+                    <j:beads>
+                        <j:TextPrompt prompt="enter email"/>
+                    </j:beads>
+                </j:TextInput>
+            </j:FormItem>
 
-</j:VGroup>
+            <j:FormItem>
+                <j:Button text="Save" emphasis="primary" click="save(event)"/>
+            </j:FormItem>
+        </j:Form>
 
-</j:View>
+    </j:VGroup>
+
+</j:ResponsiveView>
