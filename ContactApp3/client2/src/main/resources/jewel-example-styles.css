@@ -24,39 +24,9 @@
 
 j|IconButtonBar 
 {
-    iconClass: ClassReference("org.apache.royale.icons.MaterialIcon")
+    iconClass: ClassReference("org.apache.royale.icons.MaterialIcon");
 }
 
-.tableStyle
-{
-    IItemRenderer: ClassReference("itemRenderers.TableStyleListItemRenderer");
-}
-
-.simpleiIconListItemRenderer
-{
-    IItemRenderer: ClassReference("itemRenderers.SimpleIconListItemRenderer");
-}
-
-.cmbSimpleiIconListItemRenderer
-{
-    IItemRenderer: ClassReference("itemRenderers.SimpleIconListItemRenderer");
-}
-
-
-
-.iconListItemRenderer
-{
-    IItemRenderer: ClassReference("itemRenderers.IconListItemRenderer");
-}
-.iconListItemRenderer .fonticon
-{
-    margin-right: 24px;
-}
-
-.advancedIconListItemRenderer
-{
-    IItemRenderer: ClassReference("itemRenderers.AdvancedIconListItemRenderer");
-}
 .advancedIconListItemRenderer .fonticon
 {
     margin-right: 24px;
@@ -78,24 +48,9 @@ j|IconButtonBar
     color: #ffffff;
 }
 
-.navIconLinkItemRenderer
-{
-    IItemRenderer: ClassReference("itemRenderers.NavigationIconLinkItemRenderer");
-}
-
 .navIconLinkItemRenderer .fonticon
 {
     margin-right: 24px;
-}
-
-.tabBarVerticalIconItemRenderer
-{
-    IItemRenderer: ClassReference("itemRenderers.TabBarVerticalIconItemRenderer");
-}
-
-.tabBarHorizontalIconItemRenderer
-{
-    IItemRenderer: ClassReference("itemRenderers.TabBarHorizontalIconItemRenderer");
 }
 
 .jewel.drawerheader::before
@@ -128,21 +83,3 @@ j|IconButtonBar
     border-radius: 10px;
     border: 0px solid;
 }
-
-.somePopUpContent
-{
-    IPopUpContent: ClassReference("components.SomePopUpContent");
-}
-
-.navigation-section-group{
-    IItemRenderer: ClassReference("itemRenderers.NavigationIconLinkItemRenderer");
-}
-
-.navSectionItemRenderer{
-    IItemRenderer: ClassReference("itemRenderers.NavigationGroupExampleItemRenderer");
-}
-.navSectionItemRenderer .fonticon
-{
-    margin-right: 24px;
-}
-

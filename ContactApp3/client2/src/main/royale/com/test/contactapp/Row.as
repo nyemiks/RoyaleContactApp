@@ -1,8 +1,8 @@
 package com.test.contactapp
 {
 
-  [RemoteClass(alias="com.spacio.mdx.generic.dto.Row")]
   [Bindable]
+  [RemoteClass(alias="com.spacio.mdx.generic.dto.Row")]
   public class Row 
   {
 

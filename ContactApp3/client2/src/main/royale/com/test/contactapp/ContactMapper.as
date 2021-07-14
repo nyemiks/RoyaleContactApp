@@ -12,8 +12,10 @@ package com.test.contactapp
    public class ContactMapper
    {
        
+     public function ContactMapper()
+     {
 
-
+     }
 
      public function recordToDTO(records:ArrayList): ArrayList
      {

@@ -1,12 +1,11 @@
 {
 	"folders": [
 		{
-			"path": "."
+			"path": "client2"
 		}
 	],
-	"settings": {
-		"java.configuration.updateBuildConfiguration": "automatic",
+    "settings": {
         "as3mxml.sdk.framework": "d:\\Develop_Royale\\Projects\\Royale-SDK\\royale-asjs-fork",
         "as3mxml.sdk.editor": "d:\\Develop_Royale\\Projects\\Royale-SDK\\royale-asjs-fork"
-	}
+    }
 }
