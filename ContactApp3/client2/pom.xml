@@ -120,7 +120,7 @@
                 <extensions>true</extensions>
 
                 <configuration>
-                    <mainClass>ContactApp.mxml</mainClass>
+                    <mainClass>AppTestBinding.mxml</mainClass>
                     <targets>JSRoyale</targets>
                     <debug>false</debug>
                     <htmlTemplate>${basedir}/src/main/resources/jewel-index-template.html</htmlTemplate>
